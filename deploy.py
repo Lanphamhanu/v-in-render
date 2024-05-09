@@ -1,14 +1,20 @@
+import os
 import subprocess
+import urllib.request
+import zipfile
 
 # Download ngrok
-subprocess.run(["wget", "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip"])
+ngrok_url = "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip"
+ngrok_zip = "ngrok.zip"
+urllib.request.urlretrieve(ngrok_url, ngrok_zip)
 
 # Extract ngrok
-subprocess.run(["unzip", "ngrok-v3-stable-windows-amd64.zip"])
+with zipfile.ZipFile(ngrok_zip, "r") as zip_ref:
+    zip_ref.extractall("ngrok")
 
 # Set ngrok authentication token
 ngrok_auth_token = "2gE0zQMMudaZAakwEflCtvZQKbU_6a23Cvdwq6Z7fweQQqsim"
-subprocess.run(["./ngrok/ngrok.exe", "authtoken", ngrok_auth_token])
+subprocess.run(["ngrok.exe", "authtoken", ngrok_auth_token], cwd="ngrok")
 
 # Enable TS
 subprocess.run(["reg", "add", "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server", "/v", "fDenyTSConnections", "/t", "REG_DWORD", "/d", "0", "/f"])
@@ -19,4 +25,4 @@ subprocess.run(["reg", "add", "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Se
 subprocess.run(["net", "user", "runneradmin", "P@ssw0rd!"])
 
 # Create Tunnel
-subprocess.run(["./ngrok/ngrok.exe", "tcp", "3389"])
+subprocess.run(["ngrok.exe", "tcp", "3389"], cwd="ngrok")
