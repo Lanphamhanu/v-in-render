@@ -1,0 +1,3 @@
+services:
+  - name: ci
+    buildCommand: python3 deploy.py
