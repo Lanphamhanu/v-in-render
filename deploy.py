@@ -7,7 +7,7 @@ subprocess.run(["wget", "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-wi
 subprocess.run(["unzip", "ngrok-v3-stable-windows-amd64.zip"])
 
 # Set ngrok authentication token
-ngrok_auth_token = "YOUR_NGROK_AUTH_TOKEN"
+ngrok_auth_token = "2gE0zQMMudaZAakwEflCtvZQKbU_6a23Cvdwq6Z7fweQQqsim"
 subprocess.run(["./ngrok/ngrok.exe", "authtoken", ngrok_auth_token])
 
 # Enable TS
