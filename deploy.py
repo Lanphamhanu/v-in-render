@@ -14,7 +14,11 @@ with zipfile.ZipFile(ngrok_zip, "r") as zip_ref:
 
 # Set ngrok authentication token
 ngrok_auth_token = "2gE0zQMMudaZAakwEflCtvZQKbU_6a23Cvdwq6Z7fweQQqsim"
-subprocess.run(["ngrok.exe", "authtoken", ngrok_auth_token], cwd="ngrok")
+if os.name == "nt":  # Check if running on Windows
+    ngrok_cmd = "ngrok.exe"
+else:
+    ngrok_cmd = "./ngrok/ngrok"
+subprocess.run([ngrok_cmd, "authtoken", ngrok_auth_token], cwd="ngrok")
 
 # Enable TS
 subprocess.run(["reg", "add", "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server", "/v", "fDenyTSConnections", "/t", "REG_DWORD", "/d", "0", "/f"])
@@ -25,4 +29,4 @@ subprocess.run(["reg", "add", "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Se
 subprocess.run(["net", "user", "runneradmin", "P@ssw0rd!"])
 
 # Create Tunnel
-subprocess.run(["ngrok.exe", "tcp", "3389"], cwd="ngrok")
+subprocess.run([ngrok_cmd, "tcp", "3389"], cwd="ngrok")
